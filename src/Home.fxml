@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="54.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="610.0" minWidth="10.0" prefWidth="546.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="228.0" minHeight="0.0" prefHeight="107.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="405.0" minHeight="1.0" prefHeight="60.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="412.0" minHeight="10.0" prefHeight="255.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello,">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select A Course:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="200.0" />
+         </GridPane.margin>
+      </Text>
+      <MenuButton fx:id="courses" mnemonicParsing="false" onAction="#selectCourse" text="MenuButton" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="200.0" left="200.0" />
+         </GridPane.margin>
+      </MenuButton>
+      <Label fx:id="username" text="name" GridPane.columnIndex="1" />
+   </children>
+</GridPane>
