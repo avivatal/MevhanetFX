@@ -33,6 +33,9 @@ public class CourseView {
                     if(action.equals("View Repository")) {
                         QuestionView qv = new QuestionView(primaryStage, (InstructionEmployee)user, controller, selectedCourse);
                     }
+                    if(action.equals("Create Question")) {
+                        CreateQuestionView cqv = new CreateQuestionView(primaryStage, (InstructionEmployee)user, controller, selectedCourse);
+                    }
                 }
             });
             actions.getItems().addAll(item);

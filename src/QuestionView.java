@@ -39,7 +39,7 @@ public class QuestionView {
         questionList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
+                selectQuestion(newValue);
             }
         });
     }
@@ -74,14 +74,14 @@ public class QuestionView {
     @FXML ListView optionsView;
     public void showQuestion() {
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("seeQuestion.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("seeQuestion.fxml"));
+            fxmlLoader.setController(this);
+
             ArrayList<Option> options = selectedQuestion.getOptions();
             for (Option option: options) {
                 optionsView.getItems().add(option);
             }
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("seeQuestion.fxml"));
-            fxmlLoader.setController(this);
-
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage stage = new Stage();
             stage.setTitle("Question");
