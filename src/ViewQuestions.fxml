@@ -9,12 +9,12 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Questions" />
-      <ListView prefHeight="384.0" prefWidth="600.0" />
+      <ListView fx:id="questionList" prefHeight="384.0" prefWidth="600.0" />
       <HBox prefHeight="30.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Add Question" />
-            <Button mnemonicParsing="false" text="Delete Question" />
-            <Button mnemonicParsing="false" text="See Comments" />
+            <Button mnemonicParsing="false" onAction="#showQuestion" text="Show Question" />
+            <Button fx:id="deleteBtn" disable="true" mnemonicParsing="false" text="Delete Question" />
+            <Button fx:id="commentBtn" disable="true" mnemonicParsing="false" text="See Comments" />
          </children>
       </HBox>
    </children>

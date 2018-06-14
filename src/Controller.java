@@ -29,5 +29,7 @@ public class Controller {
         public Pair<ArrayList<String>, InstructionEmployee> getAvailableActions(Course course, InstructionEmployee user){
             return model.getAvailableActions(course, user);
         }
-
+        public ArrayList<Question> qetCourseQuestions(Course course, InstructionEmployee user){
+            return model.getCourseQuestions(course, user);
+        }
 }

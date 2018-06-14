@@ -175,4 +175,38 @@ public class Model {
         return null;
     }
 
+    public ArrayList<Question> getCourseQuestions(Course course, InstructionEmployee user){
+        try {
+            String statement = "SELECT * FROM Questions WHERE courseid = '" + course.getCourseNumber() + "'";
+            PreparedStatement ps = connection.prepareStatement(statement);
+            ResultSet resultSet = ps.executeQuery();
+            ArrayList<Question> questions = new ArrayList<>();
+            while (resultSet.next()) {
+                String questionId = resultSet.getString("questionId");
+                String body = resultSet.getString("body");
+                String difficulty = resultSet.getString("difficulty");
+                String timeToSolve = resultSet.getString("timetosolve");
+                Question question = new Question(questionId, body, Integer.parseInt(difficulty), Double.parseDouble(timeToSolve));
+                String query1 = "SELECT * FROM Options WHERE questionid = '" + questionId + "'";
+                String query2 = "SELECT * FROM QuestionComments WHERE questionid = '" + questionId + "'";
+                PreparedStatement ps1 = connection.prepareStatement(query1);
+                PreparedStatement ps2 = connection.prepareStatement(query2);
+                ResultSet resultSet1 = ps1.executeQuery();
+                ResultSet resultSet2 = ps2.executeQuery();
+                while (resultSet1.next()) {
+                    question.addOption(new Option(resultSet1.getString("statement"), resultSet1.getBoolean("iscorrect")));
+                }
+                while (resultSet2.next()) {
+                    question.addComment(new Comment(resultSet2.getString("comment")));
+                }
+                questions.add(question);
+            }
+            return questions;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

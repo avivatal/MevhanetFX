@@ -30,7 +30,9 @@ public class CourseView {
             item.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-
+                    if(action.equals("View Repository")) {
+                        QuestionView qv = new QuestionView(primaryStage, (InstructionEmployee)user, controller, selectedCourse);
+                    }
                 }
             });
             actions.getItems().addAll(item);
