@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #9dbdf2;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="54.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="610.0" minWidth="10.0" prefWidth="546.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="329.0" minWidth="10.0" prefWidth="168.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="610.0" minWidth="10.0" prefWidth="432.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="228.0" minHeight="0.0" prefHeight="107.0" vgrow="SOMETIMES" />
@@ -19,21 +20,20 @@
     <RowConstraints maxHeight="412.0" minHeight="10.0" prefHeight="255.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello,">
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello," />
+            <Label fx:id="username" text="name" />
+         </children>
          <GridPane.margin>
-            <Insets left="10.0" />
+            <Insets left="20.0" top="20.0" />
          </GridPane.margin>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select A Course:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      </HBox>
+      <MenuButton fx:id="courses" mnemonicParsing="false" onAction="#selectCourse" text="My Courses" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
-            <Insets left="200.0" />
-         </GridPane.margin>
-      </Text>
-      <MenuButton fx:id="courses" mnemonicParsing="false" onAction="#selectCourse" text="MenuButton" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets bottom="200.0" left="200.0" />
+            <Insets bottom="200.0" />
          </GridPane.margin>
       </MenuButton>
-      <Label fx:id="username" text="name" GridPane.columnIndex="1" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select A Course:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
    </children>
 </GridPane>

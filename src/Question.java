@@ -19,6 +19,15 @@ public class Question {
         commentCounter = 0;
     }
 
+    public Question(String body, int difficulty, double timeToSolve) {
+        this.body = body;
+        this.difficulty = difficulty;
+        this.timeToSolve = timeToSolve;
+        this.comments = new Comment[10];
+        this.options = new ArrayList<>();
+        commentCounter = 0;
+    }
+
     public void addComment(Comment comment){
         if(commentCounter<10){
             comments[commentCounter] = comment;
@@ -52,6 +61,10 @@ public class Question {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public int getCommentCounter() {
+        return commentCounter;
     }
 
     public double getTimeToSolve() {

@@ -14,7 +14,7 @@ public class Main extends Application {
 
         Parent root = (Parent)login.load();
         primaryStage.setTitle("Mivhanet");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 700, 700));
         view.setPrimaryStage(primaryStage);
         primaryStage.show();
     }

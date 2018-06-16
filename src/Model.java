@@ -145,23 +145,17 @@ public class Model {
                 }
                 InstructionEmployee newUser = null;
                 ArrayList<String> actions = new ArrayList<>();
+                actions.add("View Repository");
+                if(isInstructorNow)
+                    actions.add("Create Question");
                 switch(resultSet.getString("stafftype")){
                     case "instructionemployee":
                         newUser = user;
-                        actions.add("View Repository");
-                        if(isInstructorNow)
-                            actions.add("Create Question");
                         break;
                     case "lecturer":
-                        actions.add("View Repository");
-                        if(isInstructorNow)
-                            actions.add("Create Question");
                         newUser = new Lecturer(user);
                         break;
                     case "headlecturer":
-                        actions.add("View Repository");
-                        if(isInstructorNow)
-                            actions.add("Create Question");
                         newUser = new HeadLecturer(user);
                         break;
                 }
@@ -175,38 +169,91 @@ public class Model {
         return null;
     }
 
-    public ArrayList<Question> getCourseQuestions(Course course, InstructionEmployee user){
+    public boolean deleteQuestion(InstructionEmployee employee, Question question, Course selectedCourse) {
+        if(employee.getMyQuestions().contains(question)){
+            employee.getMyQuestions().remove(question);
+        }
+        boolean isInTest = false;
+        String testQuery = "SELECT * FROM QuestionsInTest WHERE questionid = '" + question.getId() + "'";
         try {
-            String statement = "SELECT * FROM Questions WHERE courseid = '" + course.getCourseNumber() + "'";
-            PreparedStatement ps = connection.prepareStatement(statement);
-            ResultSet resultSet = ps.executeQuery();
-            ArrayList<Question> questions = new ArrayList<>();
-            while (resultSet.next()) {
-                String questionId = resultSet.getString("questionId");
-                String body = resultSet.getString("body");
-                String difficulty = resultSet.getString("difficulty");
-                String timeToSolve = resultSet.getString("timetosolve");
-                Question question = new Question(questionId, body, Integer.parseInt(difficulty), Double.parseDouble(timeToSolve));
-                String query1 = "SELECT * FROM Options WHERE questionid = '" + questionId + "'";
-                String query2 = "SELECT * FROM QuestionComments WHERE questionid = '" + questionId + "'";
-                PreparedStatement ps1 = connection.prepareStatement(query1);
-                PreparedStatement ps2 = connection.prepareStatement(query2);
-                ResultSet resultSet1 = ps1.executeQuery();
-                ResultSet resultSet2 = ps2.executeQuery();
-                while (resultSet1.next()) {
-                    question.addOption(new Option(resultSet1.getString("statement"), resultSet1.getBoolean("iscorrect")));
-                }
-                while (resultSet2.next()) {
-                    question.addComment(new Comment(resultSet2.getString("comment")));
-                }
-                questions.add(question);
+            PreparedStatement psTest = connection.prepareStatement(testQuery);
+            ResultSet rs = psTest.executeQuery();
+            if(rs.next()) {
+                isInTest = true;
             }
-            return questions;
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(!isInTest) {
+            selectedCourse.getQuestionsRepository().remove(question);
+
+            //delete from db
+            String questionsQuery = "DELETE FROM Questions WHERE questionId = '" + question.getId() + "'";
+            String questionCommentsIdQuery = "DELETE  FROM QuestionComments WHERE questionid = '" + question.getId() + "'";
+            String optionQuery = "DELETE  FROM Options WHERE questionid = '" + question.getId() + "'";
+            try {
+                PreparedStatement ps1 = connection.prepareStatement(questionsQuery);
+                PreparedStatement ps2 = connection.prepareStatement(questionCommentsIdQuery);
+                PreparedStatement ps3 = connection.prepareStatement(optionQuery);
+                ps1.executeUpdate();
+                ps2.executeUpdate();
+                ps3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return isInTest;
+    }
+
+
+    public void addComment(String comment, Question question) {
+        question.addComment(new Comment(comment));
+        //insert to db
+        String Query = "INSERT INTO QuestionComments (questionid, comment) VALUES (" + question.getId() + ", '" + comment + "')";
+        try {
+            PreparedStatement ps = connection.prepareStatement(Query);
+            ps.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null;
     }
 
+    public void createQuestion(InstructionEmployee user, Course course, String questionBody, ArrayList<Option> options, int difficulty, double time) {
+        Question question = new Question(questionBody, difficulty, time);
+        user.getMyQuestions().add(question);
+        course.getQuestionsRepository().add(question);
+        String Query = "INSERT INTO Questions (courseid, body, difficulty, timetosolve, numberofoptions, instructionemployeeid)" +
+                " VALUES ('" + course.getCourseNumber() + "', '" + questionBody + "', " + difficulty + "," + time + "," + options.size() + ", '" + user.getID() + "')";
+        try {
+            PreparedStatement ps = connection.prepareStatement(Query);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String questionId = "";
+        String getid = "SELECT questionId FROM Questions WHERE body = '" + questionBody + "'";
+        try {
+            PreparedStatement ps = connection.prepareStatement(getid);
+            ResultSet res = ps.executeQuery();
+            if(res.next()) {
+                questionId = res.getString("questionId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for(Option o : options){
+            question.addOption(o);
+            String oq = "INSERT INTO Options (questionid, statement, iscorrect)" +
+                    " VALUES (" + questionId + ", '" + o.getStatement() + "', " + Boolean.toString(o.isCorrect()).toUpperCase()+")";
+            try {
+                PreparedStatement ps = connection.prepareStatement(oq);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

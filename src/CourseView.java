@@ -25,6 +25,7 @@ public class CourseView {
     @FXML
     public void initialize() {
         Pair<ArrayList<String>, InstructionEmployee> pair = controller.getAvailableActions(selectedCourse, user);
+        user = pair.getValue();
         for(String action : pair.getKey()) {
             MenuItem item = new MenuItem(action);
             item.setOnAction(new EventHandler<ActionEvent>() {
@@ -54,10 +55,13 @@ public class CourseView {
         try {
             Parent root = (Parent) course.load();
             primaryStage.setTitle("Mivhanet");
-            primaryStage.setScene(new Scene(root, 300, 275));
+            primaryStage.setScene(new Scene(root, 700, 700));
             primaryStage.show();
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+    public void back(){
+        HomeView hv = new HomeView(primaryStage, user, controller);
     }
 }

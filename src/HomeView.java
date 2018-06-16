@@ -50,7 +50,7 @@ public class HomeView {
         String courseName = source.getText();
         Course course = new Course();
         course.setCourseName(courseName);
-        controller.getCourseDetails(course);
+        course = controller.getCourseDetails(course);
         primaryStage.close();
         CourseView cv = new CourseView(primaryStage, (InstructionEmployee)user, controller, course);
     }
@@ -66,12 +66,13 @@ public class HomeView {
         try {
             Parent root = (Parent) home.load();
             primaryStage.setTitle("Mivhanet");
-            primaryStage.setScene(new Scene(root, 300, 275));
+            primaryStage.setScene(new Scene(root, 700, 700));
             primaryStage.show();
         }catch (IOException e){
             e.printStackTrace();
         }
     }
+
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -81,4 +82,6 @@ public class HomeView {
         this.user = user;
         username.setText(user.userName);
     }
+
+
 }

@@ -16,6 +16,10 @@ public class InstructionEmployee extends User {
 
     private ArrayList<Question> myQuestions;
 
+    public ArrayList<Question> getMyQuestions() {
+        return myQuestions;
+    }
+
     public void createQuestion(Question question, String courseId){}
 
     public void editQuestion(Question originalQuestion, Question editedQuestion){}
