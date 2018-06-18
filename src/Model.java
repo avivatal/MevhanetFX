@@ -1,5 +1,6 @@
 import javafx.util.Pair;
 
+import java.lang.System;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +45,9 @@ public class Model {
     public void connectToDb(){
 
         try {
-            String path ="src/Database.accdb";
+            System.out.printf(System.getProperty("user.dir")+ "/Database.accdb");
+            String path = "Database.accdb";
+
             connection = DriverManager.getConnection("jdbc:ucanaccess://"+path);
         }
         catch(SQLException sqlex){
